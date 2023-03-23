@@ -1,6 +1,5 @@
 import type {EventEmitter} from 'events';
-import {Entries, InvariantOf, Merge, MergeExclusive, Opaque, Simplify} from 'type-fest';
-import {SimpleMerge} from 'type-fest/source/merge';
+import {Entries} from 'type-fest';
 import {ActionSequence, Element} from './action';
 import {Capabilities, DriverCaps, W3CCapabilities, W3CDriverCaps} from './capabilities';
 import {ExecuteMethodMap, MethodMap} from './command';
@@ -164,7 +163,7 @@ export interface ISessionCommands {
    *
    * @returns A list of session data objects
    */
-  getSessions<C extends Constraints>(): Promise<MultiSessionData<C>[]>;
+  getSessions(): Promise<MultiSessionData[]>;
 
   /**
    * Get the data for the current session
@@ -187,12 +186,12 @@ export interface IExecuteCommands {
   executeMethod<TReturn = any>(script: string, args: [StringRecord] | any[]): Promise<TReturn>;
 }
 
-export interface MultiSessionData<C extends Constraints> {
+export interface MultiSessionData<C extends Constraints = Constraints> {
   id: string;
   capabilities: DriverCaps<C>;
 }
 
-export type SingularSessionData<C extends Constraints> = DriverCaps<C> & {
+export type SingularSessionData<C extends Constraints = Constraints> = DriverCaps<C> & {
   events?: EventHistory;
   error?: string;
 };
